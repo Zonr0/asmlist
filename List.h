@@ -11,9 +11,12 @@ typedef Node ** List;
 
 extern int displayList(List toDisplay);
 
-extern int r_display(Node * head);
-
 extern int initList(List newList); 
 
-extern int addItem(List addTo, int newData);
+extern int addToList(List addTo, int newData);
 
+//Internally used
+
+extern int r_display(Node * head);
+
+extern int addItem(Node * pHead, int newData);
