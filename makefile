@@ -7,7 +7,7 @@ List: List.o listdriver.c
 	$(CC) $(CFLAGS) $^ -o $@
 
 List.o: List.c ListASM.s List.h
-	$(CC) $(CFLAGS) List.c List.s -c
+	$(CC) $(CFLAGS) List.c ListASM.s -c
 
 dump: dumpmain dumplist
 
