@@ -33,7 +33,7 @@ addItem:
 	movq (%rdi), %rdi
 	call addItem
 
-.addItem_end
+.addItem_end:
 	
 	#Calling malloc is cheating, but we're starting small!
 	movq %rdi, %r10 #Save the struct pointer.
