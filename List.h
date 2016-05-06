@@ -13,7 +13,7 @@ extern int displayList(List toDisplay);
 
 extern int initList(List newList); 
 
-extern int addItem(List addTo, int newData);
+extern int addToList(List addTo, int newData);
 
 //Internally used
 

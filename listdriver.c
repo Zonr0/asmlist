@@ -1,7 +1,8 @@
 #include <stdlib.h>
+#include "List.h"
 int main() {
-	int * pInt;
-	pInt = malloc(sizeof(int));
-	free(pInt);
+	List test = 0;
+	initList(test);
+	addToList(test, 5);
 	return 0;
 }
