@@ -24,19 +24,28 @@ addItem:
 	subq $8,%rsp #Allocate space for local variables
 
 	movq $0, %rax #clear rax
-	movq (%rdi),-8(%rsp)	#Store the current node pointer on the stack
-	cmpq $0, %(rdi) 		#If head is null
+	movq %rdi,-8(%rsp)	#Store the current node pointer on the stack
+	cmpq $0, (%rdi) 		#If head->next is null
 	je .addItem_end 
 	#Since the next pointer is the first element in the node struct,
 	#we can simply dereference the pointer and store it in itself to
 	#move our current forward.
-	movq ((%rdi)), (%rdi)
+	movq (%rdi), %rdi
 	call addItem
 
 .addItem_end:
 	
 	#Calling malloc is cheating, but we're starting small!
-	movq %rdi, %r10 #Save the list pointer.
+	pushq %rdi
 	movq $16,%rdi 	#Size of data to allocate. Naievely assuming 16 bytes.
-	#TODO: Finish malloc call, store prev pointer or refactor to pass handle.
+	call malloc
+	popq %rdi
+	movq %rax,(%rdi)	#Store the pointer returned by malloc into our cur->next
+	movl %esi, 8(%rdi)	#Store the data into the integer of our struct
+	movq (%rdi), %rdi 	#increment current so we can modify cur->next
+	movq $0, (%rdi)
+
+	popq %rbp
+	ret
+	
 	
