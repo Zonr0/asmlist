@@ -13,10 +13,10 @@ extern int displayList(List toDisplay);
 
 extern int initList(List newList); 
 
-extern int addToList(List addTo, int newData);
+extern int addItem(List addTo, int newData);
 
 //Internally used
 
 extern int r_display(Node * head);
 
-extern int addItem(Node * pHead, int newData);
+//extern int addItem(Node * pHead, int newData);
