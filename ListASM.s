@@ -9,20 +9,28 @@ addToList:
 	
 	#Since Our List type is a node handle, we need to dereference
 	#the handle before passing it into our add routine.
+	#pushq %rdi
 	#movq (%rdi), %rdi
 
-	cmp $0,%rdi
+	cmp $0,(%rdi)
 	je .addToList_Empty_List
 	
 	call addItem
 	jmp .addToList_End
 
 .addToList_Empty_List:
+	pushq %rsi
 	pushq %rdi
 	movq $16,%rdi  
 	call malloc
-	popq %rdi
-	movq %rax, %rdi
+
+	#Restore our registers after the function call
+	popq %rdi 
+	popq %rsi
+
+	movq %rax, (%rdi)	#Set our first pointer to point to the new node.
+	movq (%rdi), %rdi 	#Get the actual struct starting address
+	movl %esi, 8(%rdi)	#Fill in the data at the integer loc for the struct.
 
 .addToList_End:
 	popq %rbp 	#Pop the base pointer off the stack.
