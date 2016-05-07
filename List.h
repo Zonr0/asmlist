@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <stddef.h>
 #include <stdio.h>
 
@@ -7,7 +8,7 @@ typedef struct Node
 	int data;
 } Node;
 
-typedef Node * List;
+typedef Node ** List;
 
 extern int displayList(List toDisplay);
 

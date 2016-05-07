@@ -1,7 +1,7 @@
 #include "List.h"
 
 int displayList(List toDisplay) {
-	int returnVal = r_display(toDisplay);
+	int returnVal = r_display(*toDisplay);
 	printf("\n");
 	return returnVal;
 }
@@ -15,7 +15,10 @@ int r_display(Node * pHead) {
 }
 
 int initList(List * newList) {
-	
-	*newList = NULL;
+
+	//We do this so that the user can deal with a List without having to
+	//pass it's address every time.	
+	*newList = malloc(sizeof(Node *));
+	**newList = NULL;
 	return 0;
 }
