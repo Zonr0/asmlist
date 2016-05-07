@@ -11,6 +11,7 @@ int r_display(Node * pHead) {
 		return 1;
 	}
 	printf("%d ", pHead->data);
+	r_display(pHead);
 	return 0;
 }
 
