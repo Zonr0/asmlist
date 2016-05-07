@@ -7,11 +7,11 @@ typedef struct Node
 	int data;
 } Node;
 
-typedef Node ** List;
+typedef Node * List;
 
 extern int displayList(List toDisplay);
 
-extern int initList(List newList); 
+extern int initList(List * newList); 
 
 extern int addToList(List addTo, int newData);
 

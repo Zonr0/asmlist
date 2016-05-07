@@ -9,9 +9,9 @@ addToList:
 	
 	#Since Our List type is a node handle, we need to dereference
 	#the handle before passing it into our add routine.
-	movq (%rdi), %rdi
+	#movq (%rdi), %rdi
 
-	cmp $0,(%rdi)
+	cmp $0,%rdi
 	je .addToList_Empty_List
 	
 	call addItem
@@ -22,7 +22,7 @@ addToList:
 	movq $16,%rdi  
 	call malloc
 	popq %rdi
-	movq %rax, (%rdi)
+	movq %rax, %rdi
 
 .addToList_End:
 	popq %rbp 	#Pop the base pointer off the stack.

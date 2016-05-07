@@ -1,7 +1,7 @@
 #include "List.h"
 
 int displayList(List toDisplay) {
-	int returnVal = r_display(*toDisplay);
+	int returnVal = r_display(toDisplay);
 	printf("\n");
 	return returnVal;
 }
@@ -14,7 +14,8 @@ int r_display(Node * pHead) {
 	return 0;
 }
 
-int initList(List newList) {
+int initList(List * newList) {
+	
 	*newList = NULL;
 	return 0;
 }
