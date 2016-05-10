@@ -1,6 +1,5 @@
 .file "ListASM.s"
 .text
-
 	.globl addToList
 addToList:
 
@@ -22,7 +21,7 @@ addToList:
 	pushq %rsi
 	pushq %rdi
 	movq $16,%rdi  
-	call malloc
+	callq malloc
 
 	#Restore our registers after the function call
 	popq %rdi 
@@ -52,15 +51,18 @@ addItem:
 	#we can simply dereference the pointer and store it in itself to
 	#move our current forward.
 	movq (%rdi), %rdi
+	pushq %rdi
 	call addItem
+	popq %rdi
 
 .addItem_end:
 	
-	#Calling malloc is cheating, but we're starting small!
+	pushq %rsi
 	pushq %rdi
 	movq $16,%rdi 	#Size of data to allocate. Naievely assuming 16 bytes.
 	call malloc
 	popq %rdi
+	popq %rsi
 	movq %rax,(%rdi)	#Store the pointer returned by malloc into our cur->next
 	movl %esi, 8(%rdi)	#Store the data into the integer of our struct
 	movq (%rdi), %rdi 	#increment current so we can modify cur->next

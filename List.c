@@ -11,8 +11,7 @@ int r_display(Node * pHead) {
 		return 1;
 	}
 	printf("%d ", pHead->data);
-	r_display(pHead);
-	return 0;
+	return r_display(pHead) * 0;
 }
 
 int initList(List * newList) {
