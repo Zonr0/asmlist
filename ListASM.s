@@ -48,6 +48,8 @@ addItem:
 	movq %rdi,-8(%rsp)	#Store the current node pointer on the stack
 	cmpq $0, (%rdi) 	#If head->next is null
 	je .addItem_add 
+	cmp  %esi, 8(%rdi)	#Compare esi to data in next
+	jge  .addItem_add
 	#Since the next pointer is the first element in the node struct,
 	#we can simply dereference the pointer and store it in itself to
 	#move our current forward.
@@ -64,10 +66,11 @@ addItem:
 	call malloc
 	popq %rsi
 	popq %rdi
+	movq (%rdi), %r10	#Pushing next pointer onto stack
 	movq %rax,(%rdi)	#Store the pointer returned by malloc into our cur->next
 	movl %esi, 8(%rdi)	#Store the data into the integer of our struct
 	movq (%rdi), %rdi 	#increment current so we can modify cur->next
-	movq $0, (%rdi)
+	movq %r10, (%rdi)
 
 .addItem_end:
 
