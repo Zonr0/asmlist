@@ -24,6 +24,7 @@ addBeginning:
 	
 	.globl addToListSorted
 addToListSorted:
+	#Note: Buggy!
 
 	pushq %rbp 	#Push base pointer onto stack
 	movq %rsp, %rbp #Move previous stack pointer to new base
@@ -96,6 +97,13 @@ addItemSorted:
 
 	popq %rbp
 	ret
+
+.globl deleteList
+
+deleteList: 
+
+	pushq %rbp
+	movq %rsp, %rbp
 
 	
 	
