@@ -4,11 +4,11 @@
 int main() {
 	List test = NULL;
 	initList(&test);
-	addToList(test, 10);
-	addToList(test, 20);
-	addToList(test, 30);
-	addToList(test, 40);
-	addToList(test, 50);
+	addBeginning(test, 10);
+	addBeginning(test, 20);
+	addBeginning(test, 30);
+	addBeginning(test, 40);
+	addBeginning(test, 50);
 	displayList(test);
 	return 0;
 }
