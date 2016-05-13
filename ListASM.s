@@ -1,7 +1,29 @@
 .file "ListASM.s"
 .text
-	.globl addToList
-addToList:
+
+	.globl addBeginning
+addBeginning:
+	pushq %rbp
+	movq %rsp, %rbp
+
+	pushq %rdi
+	pushq %rsi
+	movq $16, %rdi 		#Set the size of data to allocate
+	call malloc
+	popq %rsi	
+	popq %rdi
+
+	movl %esi,8(%rax)
+
+	movq (%rdi), %r10 	#Store head
+	movq %r10, (%rax)	#Set new node's next to head
+	movq %rax, (%rdi)	#Set head to new node.
+
+	popq %rbp
+	retq
+	
+	.globl addToListSorted
+addToListSorted:
 
 	pushq %rbp 	#Push base pointer onto stack
 	movq %rsp, %rbp #Move previous stack pointer to new base
@@ -12,12 +34,12 @@ addToList:
 	#movq (%rdi), %rdi
 
 	cmp $0,(%rdi)
-	je .addToList_Empty_List
+	je .addToListSorted_Empty_List
 	
-	call addItem
-	jmp .addToList_End
+	call addItemSorted
+	jmp .addToListSorted_End
 
-.addToList_Empty_List:
+.addToListSorted_Empty_List:
 	pushq %rsi
 	pushq %rdi
 	movq $16,%rdi  
@@ -32,32 +54,30 @@ addToList:
 	movq $0, (%rdi)		#Initialize a null next pointer
 	movl %esi, 8(%rdi)	#Fill in the data at the integer loc for the struct.
 
-.addToList_End:
+.addToListSorted_End:
 	popq %rbp 	#Pop the base pointer off the stack.
 	retq
 
-	.globl addItem
+	.globl addItemSorted
 
-addItem:
+addItemSorted:
 
 	pushq %rbp 		#Push base poitner onto stack
 	movq %rsp, %rbp		#Move previous stack pointer to new base
-	subq $8,%rsp 		#Allocate space for local variables
 
 	movq $0, %rax 		#clear rax
-	movq %rdi,-8(%rsp)	#Store the current node pointer on the stack
 	cmpq $0, (%rdi) 	#If head->next is null
-	je .addItem_add 
+	je .addItemSorted_add 
 	cmp  %esi, 8(%rdi)	#Compare esi to data in next
-	jge  .addItem_add
+	jge  .addItemSorted_add
 	#Since the next pointer is the first element in the node struct,
 	#we can simply dereference the pointer and store it in itself to
 	#move our current forward.
 	movq (%rdi), %rdi	#head = head->next
-	call addItem
-	jmp .addItem_end
+	call addItemSorted
+	jmp .addItemSorted_end
 
-.addItem_add:
+.addItemSorted_add:
 	
 	pushq %rdi
 	pushq %rsi
@@ -72,9 +92,8 @@ addItem:
 	movq (%rdi), %rdi 	#increment current so we can modify cur->next
 	movq %r10, (%rdi)
 
-.addItem_end:
+.addItemSorted_end:
 
-	addq $8, %rsp
 	popq %rbp
 	ret
 
