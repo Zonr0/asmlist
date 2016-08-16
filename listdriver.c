@@ -2,13 +2,16 @@
 #include <stddef.h>
 #include "List.h"
 int main() {
+	int data1,data2,data3,data4,data5;
 	List test = NULL;
 	initList(&test);
-	addBeginning(test, 10);
-	addBeginning(test, 20);
-	addBeginning(test, 30);
-	addBeginning(test, 40);
-	addBeginning(test, 50);
+
+	data1 = 10;data2 = 20;data3 = 30;data4 = 40;data5 = 50;
+	addToList(test, (void*)&data1);
+	addToList(test, (void*)&data2);
+	addToList(test, (void*)&data3);
+	addToList(test, (void*)&data4);
+	addToList(test, (void*)&data5);
 	displayList(test);
 
 	printf("%s","removing one item then displaying\n");
@@ -27,7 +30,6 @@ int main() {
 	displayList(test);
 
 	printf("%s","All tests complete\n");
-
 
 	return 0;
 }

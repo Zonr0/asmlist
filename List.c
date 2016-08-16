@@ -10,7 +10,9 @@ int r_display(Node * pHead) {
 	if (!pHead) {
 		return 1;
 	}
-	printf("%d ", pHead->data);
+	//*******WARNING: TEMPORARY***********
+	printf("%d ", *(int *)pHead->pData);
+	//************************************
 	return r_display(pHead->pNext) * 0;
 }
 

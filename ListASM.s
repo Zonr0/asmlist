@@ -56,7 +56,7 @@ addToList:
 
 
 	movq %r10,(%rax)  #Set the new node's next to head
-	mov %esi, 8(%rax) #Set our integer data
+	movq %rsi, 8(%rax) #Set our integer data
 	movq %rax, (%rdi) #Set our head to the new node
 
 	movq $0, %rax	  #return success
