@@ -14,7 +14,15 @@ extern int displayList(List toDisplay);
 
 extern int initList(List * newList); 
 
-extern int addToList(List addTo, int newData);
+//*********************Insertion**********************************************
+
+extern int addBeginning(List addTo, int newData);
+
+extern int addToListSorted(List addTo, int newData);
+
+//*************************Removal & Deletion***********************************
+
+extern int deleteList(List targetList);
 
 extern int removeFirst(List remove);
 
