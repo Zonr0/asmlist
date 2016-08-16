@@ -1,83 +1,67 @@
 .file "ListASM.s"
 .text
-	.globl addToList
-addToList:
 
-	pushq %rbp 	#Push base pointer onto stack
-	movq %rsp, %rbp #Move previous stack pointer to new base
-	
-	#Since Our List type is a node handle, we need to dereference
-	#the handle before passing it into our add routine.
-	#pushq %rdi
-	#movq (%rdi), %rdi
+	.global removeFirst
+
+removeFirst:
+
+	#rdi - Node **
+	#rdi - Node * head
+	#rbx - node * head->next Callee saved
+
+	pushq %rbp
+	movq %rsp, %rbp 
+	movq $1, %rax	#Initialize rax to 1 (empty error) We don't have to
+			#worry about losing this in the call to free since
+			#we'll set it to 0 in that case anyway.
 
 	cmp $0,(%rdi)
-	je .addToList_Empty_List
-	
-	call addItem
-	jmp .addToList_End
+	je .removeFirst_End
 
-.addToList_Empty_List:
-	pushq %rsi
+	#pushq (%rdi)	#Pushing our head pointer onto the stack for later use
 	pushq %rdi
-	movq $16,%rdi  
-	call malloc
+	movq (%rdi), %rdi #storing the dereferenced handle in rdi to pass as arg
+	movq (%rdi), %rbx #While we've got the head, store next in rbx
+	call free
 
-	#Restore our registers after the function call
-	popq %rdi 
-	popq %rsi
+	popq %rdi 	#Restore rdi
+	movq %rbx, (%rdi)
+	movq $0, %rax	#set return value to no error
 
-	movq %rax, (%rdi)	#Set our first pointer to point to the new node.
-	movq (%rdi), %rdi 	#Get the actual struct starting address
-	movq $0, (%rdi)		#Initialize a null next pointer
-	movl %esi, 8(%rdi)	#Fill in the data at the integer loc for the struct.
+.removeFirst_End:
 
-.addToList_End:
-	popq %rbp 	#Pop the base pointer off the stack.
+	popq %rbp
 	retq
 
-	.globl addItem
-
-addItem:
-
-	pushq %rbp 		#Push base poitner onto stack
-	movq %rsp, %rbp		#Move previous stack pointer to new base
-	subq $8,%rsp 		#Allocate space for local variables
-
-	movq $0, %rax 		#clear rax
-	movq %rdi,-8(%rsp)	#Store the current node pointer on the stack
-	cmpq $0, (%rdi) 	#If head->next is null
-	je .addItem_add 
-	cmp  %esi, 8(%rdi)	#Compare esi to data in next
-	jge  .addItem_add
-	#Since the next pointer is the first element in the node struct,
-	#we can simply dereference the pointer and store it in itself to
-	#move our current forward.
-	movq (%rdi), %rdi	#head = head->next
-	call addItem
-	jmp .addItem_end
-
-.addItem_add:
 	
+
+
+
+	.globl addToList
+
+addToList:
+
+	pushq %rbp
+	movq %rsp, %rbp
+
 	pushq %rdi
 	pushq %rsi
+	movq $16,%rdi
 
-	movq $16,%rdi 		#Size of data to allocate. Naievely assuming 16 bytes.
 	call malloc
+
 	popq %rsi
 	popq %rdi
-	movq (%rdi), %r10	#Pushing next pointer onto stack
-	movq %rax,(%rdi)	#Store the pointer returned by malloc into our cur->next
-	movl %esi, 8(%rdi)	#Store the data into the integer of our struct
-	movq (%rdi), %rdi 	#increment current so we can modify cur->next
-	movq %r10, (%rdi)
+	movq (%rdi),%r10 #Store the current head of the list
 
-.addItem_end:
 
-	addq $8, %rsp
+	movq %r10,(%rax)  #Set the new node's next to head
+	mov %esi, 8(%rax) #Set our integer data
+	movq %rax, (%rdi) #Set our head to the new node
+
+	movq $0, %rax	  #return success
+	
+
 	popq %rbp
-	ret
-
-	
-	
+	retq	
 	

@@ -16,6 +16,8 @@ extern int initList(List * newList);
 
 extern int addToList(List addTo, int newData);
 
+extern int removeFirst(List remove);
+
 //Internally used
 
 extern int r_display(Node * head);
