@@ -5,7 +5,7 @@
 typedef struct Node
 {
 	struct Node * pNext;
-	int data;
+	void * pData;
 } Node;
 
 typedef Node ** List;
@@ -16,9 +16,9 @@ extern int initList(List * newList);
 
 //*********************Insertion**********************************************
 
-extern int addBeginning(List addTo, int newData);
+extern int addToList(List addTo, void * pData);
 
-extern int addToListSorted(List addTo, int newData);
+extern int addToListSorted(List addTo, void * pData);
 
 //*************************Removal & Deletion***********************************
 
