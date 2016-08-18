@@ -11,6 +11,7 @@ removeFirst:
 
 	pushq %rbp
 	movq %rsp, %rbp 
+	pushq %rbx	#Caller saved register
 	movq $1, %rax	#Initialize rax to 1 (empty error) We don't have to
 			#worry about losing this in the call to free since
 			#we'll set it to 0 in that case anyway.
@@ -30,6 +31,7 @@ removeFirst:
 
 .removeFirst_End:
 
+	popq %rbx
 	popq %rbp
 	retq
 
@@ -65,3 +67,45 @@ addToList:
 	popq %rbp
 	retq	
 	
+	.globl deleteList
+
+deleteList:
+
+	pushq %rbp
+	movq %rsp, %rbp
+
+	pushq %rdi	#Push the list handle onto the stack- we don't need it until the end.
+	movq (%rdi),%rdi#Then store the node pointer into rdi
+
+.deleteList_compare:
+	cmp $0, %rdi	
+	je .deleteList_empty
+
+.deleteList_delete:
+	pushq (%rdi)	#Push the next pointer onto the stack
+	call free	
+	popq %rdi	#Instead of restoring to original value of rdi, we restore to the next pointer
+	jmp .deleteList_compare
+
+.deleteList_empty:
+	popq %rdi	#Restore our original list handle
+	movq $0, (%rdi)	#Set our first node pointer to null
+
+	movq  $0, %rax	#Return success
+
+	popq %rbp
+	ret
+
+	.globl cleanupList
+
+cleanupList:
+
+	pushq %rbp
+	movq %rsp, %rbp
+
+	movq (%rdi), %rdi#Dereference the list handle
+	call free
+			#No need to restore rdi
+	movq $0, %rax	#Return success
+	popq %rbp
+	ret

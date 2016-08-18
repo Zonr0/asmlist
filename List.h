@@ -14,6 +14,8 @@ extern int displayList(List toDisplay);
 
 extern int initList(List * newList); 
 
+extern int cleanupList(List * newList);
+
 //*********************Insertion**********************************************
 
 extern int addToList(List addTo, void * pData);

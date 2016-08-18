@@ -19,15 +19,14 @@ int main() {
 	displayList(test);
 
 	printf("%s","removing all items then displaying\n");
-	removeFirst(test);
-	removeFirst(test);
-	removeFirst(test);
-	removeFirst(test);
+	deleteList(test);
 	displayList(test);
 
 	printf("%s","Attempting to remove from an empty list\n");
 	removeFirst(test);
 	displayList(test);
+
+	cleanupList(&test);
 
 	printf("%s","All tests complete\n");
 
