@@ -22,6 +22,12 @@ extern int addToList(List addTo, void * pData);
 
 extern int addToListSorted(List addTo, void * pData);
 
+//*************************Retrieval*******************************************
+
+extern void * findInList(List searchedList,
+	      	void * pSearchedForData,
+		int (*comparator)(void *, void *));
+
 //*************************Removal & Deletion***********************************
 
 extern int deleteList(List targetList);

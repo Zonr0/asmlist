@@ -67,6 +67,46 @@ addToList:
 	popq %rbp
 	retq	
 	
+	.globl findInList
+findInList:
+
+	#RDI - List handle
+	#RSI - void * containing item we're searching for
+	#RDX - Comparator func pointer
+	
+	pushq %rbp
+	movq %rsp, %rbp
+
+.findInList_baseCase:
+
+
+	movq $0, %rax	  #By default, we return 0 for not found
+	movq (%rdi), %rdi #We don't need to modify our list, so just deref
+	#Note, this is the same operation we use to traverse the list as well.
+	cmp $0, %rdi
+	je .findInList_end	
+
+.findInList_compareItems:
+	pushq %rdi
+	pushq %rsi
+	pushq %rdx
+	movq 8(%rdi),%rdi #Pass our node's data pointer in as 1st arg
+	#Asterisk is needed as part of AT&T syntax
+	call *%rdx	  #RSI is already the arg we need to pass.
+	popq %rdx
+	popq %rsi
+	popq %rdi
+
+	cmp $0,%rax 	  #If node data matches passed in data
+	jne .findInList_baseCase #Return to our base case if not found
+
+	movq 8(%rdi),%rax #Copy our void pointer into our return
+	
+.findInList_end:
+	
+	popq %rbp
+	retq
+	
 	.globl deleteList
 
 deleteList:
