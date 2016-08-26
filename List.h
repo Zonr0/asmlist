@@ -32,6 +32,10 @@ extern void * findInList(List searchedList,
 
 extern int deleteList(List targetList);
 
+extern int findAndRemove(List searchedList,
+		void *pSearchedForData,
+		int (*comparator)(void *, void *));
+
 extern int removeFirst(List remove);
 
 //Internally used
