@@ -1,6 +1,21 @@
 .file "ListASM.s"
 .text
 
+###############################################################################
+# Function	 : removeFirst
+#
+# Arguments	 : rdi - List (Node **) targetList
+#
+# Returns	 : 1 if list is empty, 0 if remove was succesful.
+#
+# Preconditions  : targetList is an initialized non-empty list. Failure to init
+#		   will cause the function to segfault.
+#
+# Postconditions : targetList will have the first item in the list removed and
+#                  the head removed.
+#
+# Notes		 : 
+###############################################################################
 	.global removeFirst
 
 removeFirst:
@@ -38,7 +53,23 @@ removeFirst:
 	
 
 
-
+###############################################################################
+# Function	 : addToList
+#
+# Arguments	 : rdi - List (Node **) targetList
+#		   rsi - void * pData
+#
+# Returns	 : 0
+#
+# Preconditions	 : targetList is an initialized list. If unitialized, the
+#		   function will segfault. pData must either point to a valid
+#		   location in memory, or be null.
+#
+# Postconditions : targetList has pData added to the front of the list.
+#
+# Notes		 : We add at the front of the list for efficiency. This also
+#		   makes it trivial to use the list in a stack implementation.
+###############################################################################
 	.globl addToList
 
 addToList:
@@ -66,6 +97,31 @@ addToList:
 
 	popq %rbp
 	retq	
+
+###############################################################################
+# Function	 : findInList
+#
+# Arguments	 : rdi - List (Node **) targetList
+#		   rsi - void * pData
+#		   rdx - int comparator(void *, void *)
+#
+# Returns	 : a void pointer that points to the saved data inside of the
+#		   list.
+#
+# Preconditions	 : targetList must be an non-empty, initialized list. If not
+#		   initialized, the function will segfault. pData must point to
+#		   valid data (or null, though comparator needs to be defined
+#		   to account for this). Comparator must compare the two
+#		   passed in arguments and return positive if the first
+#		   argument is greater than the second, 0 if equal, and
+#		   negative if less.
+#
+# Postconditions : targetList and its contents are unchanged, but a pointer is
+#		   returned to the found data.
+#
+# Notes		 : We need to use a user-defined comparator since we're using
+#		   void pointers. The data stored in the list could be anything
+###############################################################################
 	
 	.globl findInList
 findInList:
@@ -109,6 +165,21 @@ findInList:
 	
 	.globl deleteList
 
+###############################################################################
+# Function	 : deleteList
+#
+# Arguments	 : rdi - List (Node **) targetList
+#
+# Returns	 : 0
+#
+# Preconditions	 : A non-empty initialized list. An unitialized list will
+#		   segfault. 
+#
+# Postconditions : All nodes in the list are deleted. All void pointers in the
+#		   nodes are freed as well.
+#
+# Notes		 : Data is not cleaned up yet as of 8/30/2016
+###############################################################################
 deleteList:
 
 	pushq %rbp
@@ -138,6 +209,19 @@ deleteList:
 
 	.globl cleanupList
 
+###############################################################################
+# Function	 : cleanupList
+#
+# Arguments	 : rdi - List (Node **) targetList
+#
+# Returns	 : 0
+#
+# Preconditions	 : An empty, initialized list.
+#
+# Postconditions : All overhead memory is cleaned up.
+#
+# Notes		 : This is the opposite of our initialize function.
+###############################################################################
 cleanupList:
 
 	pushq %rbp
