@@ -207,6 +207,15 @@ deleteList:
 	popq %rbp
 	ret
 
+	.globl findAndRemove
+
+findAndRemove:
+	
+	pushq %rbp
+	movq %rsp, %rbp
+
+		
+
 	.globl cleanupList
 
 ###############################################################################
